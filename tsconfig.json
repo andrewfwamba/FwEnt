@@ -1,11 +1,13 @@
 {
   "compilerOptions": {
-    "module": "ES2020",
-    "esModuleInterop": true,
-    "target": "es6",
-    "moduleResolution": "node",
-    "sourceMap": true,
-    "outDir": "./dist"
-  },
-  "lib": ["es2015"]
+    /* Language and Environment */
+    "target": "es2016",
+    /* Modules */
+    "module": "commonjs" /* Specify what module code is generated. */,
+    "outDir": "./dist",
+    "esModuleInterop": true /* Disable resolving symlinks to their realpath. This correlates to the same flag in node. */,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true /* Skip type checking .d.ts files that are included with TypeScript. */,
+    "skipLibCheck": true /* Skip type checking all .d.ts files. */
+  }
 }
