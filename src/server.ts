@@ -4,6 +4,7 @@ import helmet from "helmet";
 import mongoose from "mongoose";
 import { config } from "./config/config";
 import Logging from "./library/Logging";
+import artistRoutes from "./routes/Artist";
 
 const router = express();
 
@@ -30,7 +31,7 @@ const StartServer = () => {
     res.on("finish", () => {
       /* Log response */
       Logging.info(
-        `Incoming -> Method: ${req.method} - url: ${req.url} - IP: ${req.socket.remoteAddress} - status: [${res.statusCode}]`
+        `Outgoing -> Method: ${req.method} - url: ${req.url} - IP: ${req.socket.remoteAddress} - status: [${res.statusCode}]`
       );
     });
     next();
@@ -56,6 +57,7 @@ const StartServer = () => {
     next();
   });
   /** App routes */
+  router.use("/artists", artistRoutes);
 
   /** Check health */
   router.get("/ping", (req, res) =>
