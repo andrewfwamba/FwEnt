@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import { config } from "./config/config";
 import Logging from "./library/Logging";
 import artistRoutes from "./routes/Artist";
+import musicRoutes from "./routes/Music";
 
 const router = express();
 
@@ -58,6 +59,7 @@ const StartServer = () => {
   });
   /** App routes */
   router.use("/artists", artistRoutes);
+  router.use("/music", musicRoutes);
 
   /** Check health */
   router.get("/ping", (req, res) =>
