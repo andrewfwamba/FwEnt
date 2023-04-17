@@ -14,7 +14,6 @@ const MusicSchema: Schema = new Schema(
   },
   {
     timestamps: true,
-    versionKey: true,
   }
 );
 
