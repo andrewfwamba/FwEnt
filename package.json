@@ -4,8 +4,8 @@
   "description": "",
   "main": "src/server.ts",
   "scripts": {
-    "start": "nodemon tsc && node dist/app.js",
-    "build": "rm -rf build/ && tsc",
+    "start": "node dist/server.js",
+    "build": "rm -rf dist/ && tsc",
     "watch": "nodemon --watch './**/*.{ts,graphql}' --exec 'node --experimental-specifier-resolution=node --loader ts-node/esm' src/app.ts",
     "lint": "eslint . --ext .ts",
     "dev:server": "nodemon --watch './**/*.ts' --exec 'node --experimental-specifier-resolution=node --loader ts-node/esm' src/app.ts",
