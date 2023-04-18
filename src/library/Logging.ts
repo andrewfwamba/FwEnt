@@ -9,7 +9,7 @@ export default class Logging {
     );
   public static warn = (args: any) =>
     console.log(
-      chalk.blue(`[${new Date().toLocaleString()}] [INFO]`),
+      chalk.yellow(`[${new Date().toLocaleString()}] [INFO]`),
       typeof args === "string" ? chalk.yellowBright(args) : args
     );
   public static error = (args: any) =>
