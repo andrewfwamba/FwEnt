@@ -70,22 +70,6 @@ UserSchema.statics.isThisEmailInUse = async function (email: string) {
   }
 };
 
-// UserSchema.statics.isThisEmailInUse = async function (
-//   this: IUserModelStatic,
-//   email: string
-// ) {
-//   if (!email) throw new Error("Invalid email provided");
-//   try {
-//     const user = await this.findOne({ email });
-//     if (user) return false;
-
-//     return true;
-//   } catch (error: any) {
-//     console.log("error in the method", error.message);
-//     return false;
-//   }
-// };
-
 // const UserModel: IUserModelStatic = mongoose.model<
 //   IUserModel,
 //   IUserModelStatic
