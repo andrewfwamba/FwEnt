@@ -6,6 +6,7 @@ import { config } from "./config/config";
 import Logging from "./library/Logging";
 import artistRoutes from "./routes/Artist";
 import musicRoutes from "./routes/Music";
+import userRoutes from "./routes/User";
 
 const router = express();
 
@@ -58,6 +59,7 @@ const StartServer = () => {
     next();
   });
   /** App routes */
+  router.use("/users", userRoutes);
   router.use("/artists", artistRoutes);
   router.use("/music", musicRoutes);
 
