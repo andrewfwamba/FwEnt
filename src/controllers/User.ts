@@ -1,9 +1,5 @@
 import * as jwt from "jsonwebtoken";
-import dotenv from "dotenv";
-dotenv.config();
-
-import { NextFunction, Request, Response } from "express";
-import mongoose from "mongoose";
+import { Request, Response } from "express";
 import User, { IUserModel, IUserModelStatic } from "../models/User";
 
 const createUser = async (req: Request, res: Response) => {
@@ -57,7 +53,7 @@ const loginUser = async (req: Request, res: Response) => {
       tokens: [...oldTokens, { token, signedAt: Date.now().toString() }],
     });
     const userInfo = {
-      fullname: user.name,
+      name: user.name,
       email: user.email,
       phone: user.phone,
     };
