@@ -3,6 +3,7 @@ import Logging from "../library/Logging";
 import { Request, Response, NextFunction } from "express";
 import { IArtist } from "../models/Artist";
 import { IMusic } from "../models/Music";
+import { IUser } from "../models/User";
 
 export const ValidateSchema = (schema: ObjectSchema) => {
   return async (req: Request, res: Response, next: NextFunction) => {
@@ -37,6 +38,14 @@ export const Schemas = {
         .regex(/^[0-9a-fA-F]{24}$/)
         .required(),
       title: Joi.string().required(),
+    }),
+  },
+  user: {
+    create: Joi.object<IUser>({
+      name: Joi.string().required(),
+      email: Joi.string().required().email(),
+      phone: Joi.string().required(),
+      password: Joi.string().required(),
     }),
   },
 };
