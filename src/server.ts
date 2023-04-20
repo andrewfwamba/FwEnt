@@ -7,6 +7,7 @@ import Logging from "./library/Logging";
 import artistRoutes from "./routes/Artist";
 import musicRoutes from "./routes/Music";
 import userRoutes from "./routes/User";
+import { isAuth } from "./middleware/auth";
 
 const router = express();
 
@@ -60,7 +61,7 @@ const StartServer = () => {
   });
   /** App routes */
   router.use("/users", userRoutes);
-  router.use("/artists", artistRoutes);
+  router.use("/artists", isAuth, artistRoutes);
   router.use("/music", musicRoutes);
 
   /** Check health */
