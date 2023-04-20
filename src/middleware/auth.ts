@@ -1,22 +1,41 @@
-import mongoose from "mongoose";
 import * as jwt from "jsonwebtoken";
-import User from "../models/User";
-import { NextFunction, Request, Response } from "express";
+import User, { IUserModel } from "../models/User";
+import { NextFunction, Request, RequestHandler, Response } from "express";
 
-const isAuth = async (req: Request, res: Response, next: NextFunction) => {
+const seckey = process.env.JWT_SECRET || "";
+// interface AuthenticatedRequest extends Request {
+//   user: IUserModel;
+// }
+
+export const isAuth = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  // Get the token from the request headers
   if (req.headers && req.headers.authorization) {
     const token = req.headers.authorization.split(" ")[1];
 
     try {
-      const seckey = process.env.JWT_SECRET || "";
-      const decode = jwt.verify(token, seckey);
+      const decode = jwt.verify(token, seckey) as { userId: string };
       const user = await User.findById(decode.userId);
 
       if (!user) {
-        return res.json({ success: false, message: "Unauthorized access" });
+        return res
+          .status(401)
+          .json({ success: false, message: "Unauthorized access" });
       }
-      req.user = user;
+
+      // Check if the user is the current authenticated user
+      // if (user._id.toString() !== req.params.userId) {
+      //   return res.status(403).json({ message: "Forbidden" });
+      // }
+
+      console.log(user._id);
+      // Add the user object to the request object for later use
+      // req.user = user;
       next();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       if (error.name === "JsonWebTokenError") {
         return res.json({ success: false, message: "Invalid Access token" });
@@ -36,3 +55,5 @@ const isAuth = async (req: Request, res: Response, next: NextFunction) => {
     res.json({ success: false, message: "Unauthorized access" });
   }
 };
+
+// export default { isAuth };
