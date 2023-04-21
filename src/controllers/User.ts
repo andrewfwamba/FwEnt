@@ -13,8 +13,14 @@ const createUser = async (req: Request, res: Response) => {
     });
 
   const user = await UserModel.create({ name, phone, email, password });
+  const userinfo = {
+    id: user._id,
+    name: user.name,
+    phone: user.phone,
+    email: user.email,
+  };
 
-  res.json({ success: true, user });
+  res.json({ success: true, userinfo });
 };
 
 const loginUser = async (req: Request, res: Response) => {
@@ -24,9 +30,10 @@ const loginUser = async (req: Request, res: Response) => {
     const user: IUserModel | null = await User.findOne({ email });
 
     if (!user) {
-      return res
-        .status(404)
-        .json({ success: false, message: "User not found" });
+      return res.status(404).json({
+        success: false,
+        message: "User with provided email doesn't exist",
+      });
     }
 
     const isMatch: boolean = await user.comparePassword(password);
