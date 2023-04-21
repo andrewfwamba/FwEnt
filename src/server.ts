@@ -7,7 +7,8 @@ import Logging from "./library/Logging";
 import artistRoutes from "./routes/Artist";
 import musicRoutes from "./routes/Music";
 import userRoutes from "./routes/User";
-import { isAuth } from "./middleware/auth";
+import { isAuthenticated } from "./middleware/auth";
+// import isAuth from "./middleware/auth";
 
 const router = express();
 
@@ -61,8 +62,8 @@ const StartServer = () => {
   });
   /** App routes */
   router.use("/users", userRoutes);
-  router.use("/artists", isAuth, artistRoutes);
-  router.use("/music", musicRoutes);
+  router.use("/artists", isAuthenticated, artistRoutes);
+  router.use("/music", isAuthenticated, musicRoutes);
 
   /** Check health */
   router.get("/ping", (req, res) =>
