@@ -45,7 +45,11 @@ export const Schemas = {
       name: Joi.string().required(),
       email: Joi.string().required().email(),
       phone: Joi.string().required(),
-      password: Joi.string().required(),
+      password: Joi.string().required().min(8),
+    }),
+    signin: Joi.object<IUser>({
+      email: Joi.string().required().email(),
+      password: Joi.string().required().min(8),
     }),
   },
 };
