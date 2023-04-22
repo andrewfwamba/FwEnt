@@ -1,6 +1,6 @@
 import * as jwt from "jsonwebtoken";
-import User, { IUserModel } from "../models/User";
-import { NextFunction, Request, RequestHandler, Response } from "express";
+import User from "../models/User";
+import { NextFunction, Request, Response } from "express";
 
 const seckey = process.env.JWT_SECRET || "";
 export async function isAuthenticated(
