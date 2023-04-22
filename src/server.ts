@@ -8,7 +8,8 @@ import artistRoutes from "./routes/Artist";
 import musicRoutes from "./routes/Music";
 import userRoutes from "./routes/User";
 import { isAuthenticated } from "./middleware/auth";
-// import isAuth from "./middleware/auth";
+import resetPassword from "./routes/resetPassword";
+import cors from "cors";
 
 const router = express();
 
@@ -42,6 +43,7 @@ const StartServer = () => {
   });
   router.use(express.urlencoded({ extended: true }));
   router.use(express.json());
+  router.use(cors());
   router.use(helmet());
   /** Rules */
   router.use((req, res, next) => {
@@ -61,9 +63,10 @@ const StartServer = () => {
     next();
   });
   /** App routes */
-  router.use("/users", userRoutes);
-  router.use("/artists", isAuthenticated, artistRoutes);
-  router.use("/music", isAuthenticated, musicRoutes);
+  router.use("/api/v1/users", userRoutes);
+  router.use("/api/v1/artists", isAuthenticated, artistRoutes);
+  router.use("/api/v1/music", isAuthenticated, musicRoutes);
+  router.use(resetPassword);
 
   /** Check health */
   router.get("/ping", (req, res) =>
