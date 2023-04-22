@@ -46,6 +46,12 @@ export const Schemas = {
       email: Joi.string().required().email(),
       phone: Joi.string().required(),
       password: Joi.string().required().min(8),
+      confirmpassword: Joi.any()
+        .valid(Joi.ref("password"))
+        .required()
+        .equal(Joi.ref("password"))
+        .label("confirm password")
+        .messages({ "any.only": "{{#label}} does not match" }),
     }),
     signin: Joi.object<IUser>({
       email: Joi.string().required().email(),
