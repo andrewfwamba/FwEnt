@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import User, { IUserModel, IUserModelStatic } from "../models/User";
 
 const createUser = async (req: Request, res: Response) => {
-  const { name, phone, email, password } = req.body;
+  const { name, phone, email, password, confirmpassword } = req.body;
   const UserModel: IUserModelStatic = User;
   const isNewUser = await UserModel.isThisEmailInUse(email);
   if (!isNewUser)
