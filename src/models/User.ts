@@ -74,12 +74,6 @@ UserSchema.statics.isThisEmailInUse = async function (email: string) {
   }
 };
 
-// const UserModel: IUserModelStatic = mongoose.model<
-//   IUserModel,
-//   IUserModelStatic
-// >("User", UserSchema);
-
-// export default UserModel;
 const UserModel: IUserModelStatic = <IUserModelStatic>(
   model<IUserModel>("User", UserSchema)
 );
