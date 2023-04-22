@@ -6,6 +6,7 @@ export interface IUser {
   phone: number;
   email: string;
   password: string;
+  confirmpassword: string;
   token: string;
 }
 
@@ -37,6 +38,7 @@ UserSchema.pre<IUserModel>("save", async function (next) {
       const hash = await bcrypt.hash(this.password, salt);
       this.password = hash;
       next();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       return next(err);
     }
@@ -51,6 +53,7 @@ UserSchema.methods.comparePassword = async function (
   try {
     const result = await bcrypt.compare(password, this.password);
     return result;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.log("Error while trying to compare password", error.message);
     return false;
@@ -64,6 +67,7 @@ UserSchema.statics.isThisEmailInUse = async function (email: string) {
     if (user) return false;
 
     return true;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.log("error in the method", error.message);
     return false;
