@@ -59,7 +59,7 @@ router.post(
 
       res.send({
         success: true,
-        message: "Password reset link sent to your email",
+        message: "Password reset link sent to user's email",
       });
     } catch (error) {
       res.send({ success: false, message: "An error occurred" });
@@ -69,10 +69,10 @@ router.post(
 );
 
 router.post(
-  "/api/:userId/:token",
+  "/api/v1/:userId/:token",
   async (req: express.Request, res: express.Response) => {
     try {
-      const schema = Joi.object({ password: Joi.string().required() });
+      const schema = Joi.object({ password: Joi.string().required().min(8) });
       const { error } = schema.validate(req.body);
       if (error) return res.status(400).send(error.details[0].message);
 
@@ -80,7 +80,7 @@ router.post(
       if (!user) return res.status(400).send("Invalid link or expired");
 
       const token = await Token.findOne({
-        userId: user._id,
+        userId: req.params.userId, //user._id,
         token: req.params.token,
       });
       if (!token) return res.status(400).send("Invalid link or expired");
