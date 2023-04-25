@@ -55,7 +55,8 @@ router.post(
                       <div style="font-family: inherit; text-align: center"><span style="color: #ffffff; font-size: 13px">ready to help!</span></div><div></div></div></td>
                     </tr>
                   </tbody>`;
-      await sendEmail(user.email, user.name, subject, body, info);
+      const greeting = `Hello, ${user.name}`;
+      await sendEmail(user.email, greeting, subject, body, info);
 
       res.send({
         success: true,
