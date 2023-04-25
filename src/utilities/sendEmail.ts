@@ -19,7 +19,7 @@ const transporter = nodemailer.createTransport(config);
 // Function to send password reset OTP email
 export async function sendEmail(
   recipientEmail: string,
-  username: string,
+  greeting: string,
   subject: string,
   body: string,
   info: string
@@ -188,7 +188,7 @@ export async function sendEmail(
     </table><table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="948e3f3f-5214-4721-a90e-625a47b1c957" data-mc-module-version="2019-10-22">
       <tbody>
         <tr>
-          <td style="padding:50px 30px 18px 30px; line-height:36px; text-align:inherit; background-color:#ffffff;" height="100%" valign="top" bgcolor="#ffffff" role="module-content"><div><div style="font-family: inherit; text-align: center"><span style="font-size: 23px">Hello, ${username}</span></div><div></div></div></td>
+          <td style="padding:50px 30px 18px 30px; line-height:36px; text-align:inherit; background-color:#ffffff;" height="100%" valign="top" bgcolor="#ffffff" role="module-content"><div><div style="font-family: inherit; text-align: center"><span style="font-size: 23px">${greeting}</span></div><div></div></div></td>
         </tr>
       </tbody>
     </table><table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="a10dcb57-ad22-4f4d-b765-1d427dfddb4e" data-mc-module-version="2019-10-22">
