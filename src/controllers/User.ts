@@ -2,6 +2,12 @@ import * as jwt from "jsonwebtoken";
 import { Request, Response } from "express";
 import User, { IUserModel, IUserModelStatic } from "../models/User";
 import { sendEmail } from "../utilities/sendEmail";
+import cloudinary from "../utilities/cloudinary";
+
+interface AuthRequest extends Request {
+  file?: any;
+  user?: any;
+}
 
 const createUser = async (req: Request, res: Response) => {
   const { name, phone, email, password, confirmpassword } = req.body;
@@ -88,6 +94,7 @@ const loginUser = async (req: Request, res: Response) => {
     const userInfo = {
       name: user.name,
       email: user.email,
+      avatar: user.avatar ? user.avatar : "",
       phone: user.phone,
     };
 
@@ -98,4 +105,34 @@ const loginUser = async (req: Request, res: Response) => {
   }
 };
 
-export default { createUser, loginUser };
+const uploadProfile = async (req: AuthRequest, res: Response) => {
+  const { user } = req;
+  if (!user)
+    return res
+      .status(401)
+      .json({ success: false, message: "Unauthorized access" });
+
+  try {
+    const result = await cloudinary.v2.uploader.upload(req.file.path, {
+      public_id: `${user._id}_profile`,
+      width: 500,
+      height: 500,
+      crop: "fill",
+    });
+    await User.findByIdAndUpdate(user._id, { avatar: result.url });
+
+    res.status(201).json({
+      success: true,
+      message: "Profile updated successfully",
+      avatar: result.url,
+    });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    res
+      .status(500)
+      .json({ success: false, message: "Server error try again later" });
+    console.log("Error while uploading", error.message);
+  }
+};
+
+export default { createUser, loginUser, uploadProfile };
