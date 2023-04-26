@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as jwt from "jsonwebtoken";
 import { Request, Response } from "express";
 import User, { IUserModel, IUserModelStatic } from "../models/User";
@@ -135,4 +136,17 @@ const uploadProfile = async (req: AuthRequest, res: Response) => {
   }
 };
 
-export default { createUser, loginUser, uploadProfile };
+const profile = (req: AuthRequest, res: Response) => {
+  if (!req.user)
+    return res.json({ success: false, message: "Unauthorized access" });
+  res.json({
+    success: true,
+    profile: {
+      fullname: req.user.name,
+      email: req.user.email,
+      avatar: req.user.avatar ? req.user.avatar : "",
+    },
+  });
+};
+
+export default { createUser, loginUser, uploadProfile, profile };
