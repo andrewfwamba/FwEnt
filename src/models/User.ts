@@ -5,6 +5,7 @@ export interface IUser {
   name: string;
   phone: number;
   email: string;
+  avatar: string;
   password: string;
   confirmpassword: string;
   token: string;
@@ -23,6 +24,7 @@ const UserSchema: Schema = new mongoose.Schema(
     name: { type: String, required: true },
     phone: { type: String, required: true },
     email: { type: String, required: true },
+    avatar: String,
     password: { type: String, required: true },
     token: [{ type: Object }],
   },
