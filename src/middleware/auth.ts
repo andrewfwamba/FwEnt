@@ -1,10 +1,15 @@
+import { Model, Document } from "mongoose";
 import * as jwt from "jsonwebtoken";
-import User from "../models/User";
+import User, { IUser } from "../models/User";
 import { NextFunction, Request, Response } from "express";
+
+interface AuthenticatedRequest extends Request {
+  user?: IUser & Document;
+}
 
 const seckey = process.env.JWT_SECRET || "";
 export async function isAuthenticated(
-  req: Request,
+  req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
 ) {
@@ -24,13 +29,8 @@ export async function isAuthenticated(
       //   return res.status(403).json({ message: "Forbidden" });
       // }
 
-      console.log(user._id);
       // Add the user object to the request object for later use
-      const userInfo = {
-        name: user.name,
-        email: user.email,
-        phone: user.phone,
-      };
+      req.user = user;
       next();
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
