@@ -15,9 +15,6 @@ const fileFilter = (req: any, file: any, cb: any) => {
     cb("invalid image type!", false);
   }
 };
-interface AuthRequest extends Request {
-  user?: any;
-}
 
 const uploads = multer({ storage, fileFilter });
 
