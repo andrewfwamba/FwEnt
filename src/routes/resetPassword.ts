@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import Joi from "joi";
 import User from "../models/User";
 import Token from "../models/token";
@@ -69,34 +69,31 @@ router.post(
   }
 );
 
-router.post(
-  "/api/v1/:userId/:token",
-  async (req: express.Request, res: express.Response) => {
-    try {
-      const schema = Joi.object({ password: Joi.string().required().min(8) });
-      const { error } = schema.validate(req.body);
-      if (error) return res.status(400).send(error.details[0].message);
+router.post("/api/v1/:userId/:token", async (req: Request, res: Response) => {
+  try {
+    const schema = Joi.object({ password: Joi.string().required().min(8) });
+    const { error } = schema.validate(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
 
-      const user = await User.findById(req.params.userId);
-      if (!user) return res.status(400).send("Invalid link or expired");
+    const user = await User.findById(req.params.userId);
+    if (!user) return res.status(400).send("Invalid link or expired");
 
-      const token = await Token.findOne({
-        userId: req.params.userId, //user._id,
-        token: req.params.token,
-      });
-      if (!token) return res.status(400).send("Invalid link or expired");
+    const token = await Token.findOne({
+      userId: req.params.userId, //user._id,
+      token: req.params.token,
+    });
+    if (!token) return res.status(400).send("Invalid link or expired");
 
-      // Update password
-      user.password = req.body.password;
-      await user.save();
-      await token.deleteOne();
+    // Update password
+    user.password = req.body.password;
+    await user.save();
+    await token.deleteOne();
 
-      res.send("Password reset successfully.");
-    } catch (error) {
-      res.send("An error occurred");
-      console.log(error);
-    }
+    res.send("Password reset successfully.");
+  } catch (error) {
+    res.send("An error occurred");
+    console.log(error);
   }
-);
+});
 
 export = router;
