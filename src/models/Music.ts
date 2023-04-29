@@ -3,6 +3,7 @@ import { Document } from "mongoose";
 export interface IMusic {
   title: string;
   artist: string;
+  url: string;
 }
 
 export interface IMusicModel extends IMusic, Document {}
@@ -10,6 +11,7 @@ export interface IMusicModel extends IMusic, Document {}
 const MusicSchema: Schema = new Schema(
   {
     title: { type: String, required: true },
+    url: String,
     artist: { type: Schema.Types.ObjectId, required: true, ref: "Artist" },
   },
   {
