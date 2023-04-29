@@ -142,6 +142,7 @@ const profile = (req: AuthRequest, res: Response) => {
   res.json({
     success: true,
     profile: {
+      id: req.user._id,
       fullname: req.user.name,
       email: req.user.email,
       avatar: req.user.avatar ? req.user.avatar : "",
