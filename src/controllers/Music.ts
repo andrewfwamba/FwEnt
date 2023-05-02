@@ -8,9 +8,10 @@ import Logging from "../library/Logging";
 const createMusic = (req: Request & { file?: any }, res: Response) => {
   const { title, artist } = req.body;
   // Get file details from req.file
+  const file = req.file
   const url = path.join(req.file.destination, req.file.filename);
 
-  if (!req.file) {
+  if (!file) {
     return res.status(400).json({ error: "No file uploaded" });
   }
   const music = new Music({
@@ -78,7 +79,7 @@ const stream = async (req: Request, res: Response) => {
       return res.status(404).json({ message: "File not found" });
     }
     // const filePathv = path.join(__dirname, 'mp3', title);
-    const filePath = path.join(__dirname, "..", music.url);
+    const filePath = path.join(__dirname, "../..", music.url);
 
     const stat = fs.statSync(filePath);
     const fileSize = stat.size;
