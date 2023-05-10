@@ -14,7 +14,7 @@ const fileFilter = (req: any, file: any, cb: any) => {
   } else {
     cb("invalid image type!", false);
   }
-};
+}; // handles profile image uploads
 
 const uploads = multer({ storage, fileFilter });
 
@@ -22,19 +22,19 @@ router.post(
   "/create",
   ValidateSchema(Schemas.user.create),
   controller.createUser
-);
+); // for user sign up
 router.post(
   "/signin",
   ValidateSchema(Schemas.user.signin),
   controller.loginUser
-);
+); // logs in the user
 
 router.post(
   "/upload-profile",
   isAuthenticated,
   uploads.single("profile"),
   controller.uploadProfile
-);
-router.get("/profile", isAuthenticated, controller.profile);
+); //lets user upload profile picture
+router.get("/profile", isAuthenticated, controller.profile);// gets user info to the client
 
 export = router;
