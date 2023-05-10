@@ -33,7 +33,7 @@ const getMusic = (req: Request, res: Response) => {
     .then((music) =>
       music
         ? res.status(200).json({ music })
-        : res.status(404).json({ message: "Not found" })
+        : res.status(404).json({success: true, message: "Not found" })
     )
     .catch((error) => res.status(500).json({ error }));
 };
@@ -41,7 +41,7 @@ const getAllMusic = (req: Request, res: Response) => {
   return Music.find()
     .populate("artist")
     .select("-__v")
-    .then((music) => res.status(200).json({ music }))
+    .then((music) => res.status(200).json({success: true, music }))
     .catch((error) => res.status(500).json({ error }));
 };
 const updateMusic = (req: Request, res: Response) => {
