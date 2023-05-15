@@ -36,11 +36,11 @@ export async function isAuthenticated(
     } catch (error: any) {
       // check token validity
       if (error.name === "JsonWebTokenError") {
-        return res.status(401).json({ success: false, message: "Invalid Access token" });
+        return res.json({ success: false, message: "Invalid Access token" });
       }
       // catch token expired error
       if (error.name === "TokenExpiredError") {
-        return res.status(401).json({
+        return res.json({
           success: false,
           message: "Session expired try sign in",
         });

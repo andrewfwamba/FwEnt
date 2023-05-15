@@ -65,7 +65,7 @@ const StartServer = () => {
   /** App routes */
   router.use("/api/v1/users", userRoutes);
   router.use("/api/v1/artists", isAuthenticated, artistRoutes);
-  router.use("/api/v1/music", isAuthenticated, musicRoutes);
+  router.use("/api/v1/music", musicRoutes);
   router.use(resetPassword);
 
   /** Check health */
