@@ -10,6 +10,7 @@ import userRoutes from "./routes/User";
 import { isAuthenticated } from "./middleware/auth";
 import resetPassword from "./routes/resetPassword";
 import cors from "cors";
+import path from "path";
 
 const router = express();
 
@@ -45,6 +46,7 @@ const StartServer = () => {
   router.use(express.json());
   router.use(cors());
   router.use(helmet());
+  router.use("/uploads", express.static(path.join(__dirname, "../uploads")));
   /** Rules */
   router.use((req, res, next) => {
     res.header("Acess-Control-Allow-Origin", "*");
@@ -72,6 +74,12 @@ const StartServer = () => {
   router.get("/ping", (req, res) =>
     res.status(200).json({ message: "successful connection" })
   );
+  router.post("/test/gameresponse", (req, res) => {
+    Logging.info(req.body);
+    const balance = 100;
+    Logging.info(`balance: ${balance}`);
+    res.status(200).json({ success: true, balance });
+  });
 
   /** Handling errors */
 

@@ -43,5 +43,6 @@ router.patch(
 router.delete("/delete/:musicId", controller.deleteMusic);
 
 router.get("/mp3/:title", controller.stream);
+router.get("/mp3/stream/:title", controller.altStream);
 
 export = router;
