@@ -73,8 +73,10 @@ const StartServer = () => {
   /** Check health */
   router.get(
     "/ping",
-    (req, res) => Logging.info("test ok")
-    // res.status(200).json({ })
+    (
+      req,
+      res // Logging.info("test ok")
+    ) => res.status(200)
   );
   router.post("/test/gameresponse", (req, res) => {
     Logging.info(req.body);
