@@ -71,14 +71,16 @@ const StartServer = () => {
   router.use(resetPassword);
 
   /** Check health */
-  router.get("/ping", (req, res) =>
-    res.status(200).json({ message: "successful connection" })
+  router.get(
+    "/ping",
+    (req, res) => Logging.info("test ok")
+    // res.status(200).json({ })
   );
   router.post("/test/gameresponse", (req, res) => {
     Logging.info(req.body);
     const balance = 100;
     Logging.info(`balance: ${balance}`);
-    res.status(200).json({ success: true, balance });
+    res.status(200).json({ balance });
   });
 
   /** Handling errors */
