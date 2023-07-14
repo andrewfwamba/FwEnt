@@ -82,7 +82,7 @@ const StartServer = () => {
     Logging.info(req.body);
     const balance = 100;
     Logging.info(`balance: ${balance}`);
-    res.status(200).json({ balance });
+    res.json({ balance });
   });
 
   /** Handling errors */
