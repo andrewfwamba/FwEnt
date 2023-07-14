@@ -8,7 +8,7 @@ import Logging from "../library/Logging";
 const createMusic = (req: Request & { file?: any }, res: Response) => {
   const { title, artist } = req.body;
   // Get file details from req.file
-  const file = req.file
+  const file = req.file;
   const url = path.join(req.file.destination, req.file.filename);
 
   if (!file) {
@@ -33,7 +33,7 @@ const getMusic = (req: Request, res: Response) => {
     .then((music) =>
       music
         ? res.status(200).json({ music })
-        : res.status(404).json({success: true, message: "Not found" })
+        : res.status(404).json({ success: true, message: "Not found" })
     )
     .catch((error) => res.status(500).json({ error }));
 };
@@ -41,7 +41,7 @@ const getAllMusic = (req: Request, res: Response) => {
   return Music.find()
     .populate("artist")
     .select("-__v")
-    .then((music) => res.status(200).json({success: true, music }))
+    .then((music) => res.status(200).json({ success: true, music }))
     .catch((error) => res.status(500).json({ error }));
 };
 const updateMusic = (req: Request, res: Response) => {
@@ -80,6 +80,7 @@ const stream = async (req: Request, res: Response) => {
     }
     // const filePathv = path.join(__dirname, 'mp3', title);
     const filePath = path.join(__dirname, "../..", music.url);
+    console.log(filePath);
 
     const stat = fs.statSync(filePath);
     const fileSize = stat.size;
@@ -110,12 +111,25 @@ const stream = async (req: Request, res: Response) => {
       res.on("error", (error) => {
         Logging.error(error);
       });
+
       fs.createReadStream(filePath).pipe(res);
     }
   } catch (error) {
     Logging.error(error);
     res.status(500).json({ message: "Server error" });
   }
+};
+const altStream = async (req: Request, res: Response) => {
+  const { title } = req.params;
+  const music = await Music.findOne({ title });
+  if (!music) {
+    return res.status(404).json({ message: "File not found" });
+  }
+  // Generate the URL for playing the specific MP3 file
+  const streamUrl = `https://10ea-105-165-184-2.ngrok-free.app/stream/${music.url}`;
+
+  const fileUrl = music.url;
+  res.json({ streamUrl });
 };
 
 export default {
@@ -125,4 +139,5 @@ export default {
   updateMusic,
   deleteMusic,
   stream,
+  altStream,
 };
