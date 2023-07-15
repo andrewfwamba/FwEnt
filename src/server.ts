@@ -11,6 +11,7 @@ import { isAuthenticated } from "./middleware/auth";
 import resetPassword from "./routes/resetPassword";
 import cors from "cors";
 import path from "path";
+import axios from "axios";
 
 const router = express();
 
@@ -74,13 +75,24 @@ const StartServer = () => {
   router.get("/ping", (req, res) => {
     return res.status(200).json(null);
   });
-  router.post("/test/gameresponse", (req, res) => {
+  router.post("/test/gameresponse", async (req, res) => {
     const { action, player_id, currency, amount, transaction_id } = req.body;
     Logging.info(req.body);
 
     if (action === "balance") {
-      const balance = 100;
-      return res.json({ balance });
+      try {
+        const bal = await axios.post(
+          "https://bitsbet.net/bitsbet-api/public/api/balance",
+          {
+            phone: player_id,
+            currency: currency,
+          }
+        );
+        if (bal.data.success) {
+          const balance: number = bal.data.balance;
+          return res.json({ balance });
+        }
+      } catch (error) {}
     } else if (action === "bet") {
       const balance = 99;
 

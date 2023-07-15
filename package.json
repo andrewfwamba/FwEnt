@@ -37,6 +37,7 @@
   "dependencies": {
     "@google-cloud/storage": "^6.9.5",
     "@sendgrid/mail": "^7.7.0",
+    "axios": "^1.4.0",
     "bcrypt": "^5.1.0",
     "chalk": "^4.1.2",
     "cloudinary": "^1.36.2",
