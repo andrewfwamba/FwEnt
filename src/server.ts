@@ -109,6 +109,11 @@ const StartServer = () => {
           const balance: number = bet.data.balance;
           const transaction_id = bet.data.transaction;
           return res.json({ balance, transaction_id });
+        } else {
+          res.json({
+            error_code: "INSUFFICIENT_FUNDS",
+            error_description: "Not enough money to continue playing",
+          });
         }
       } catch (error) {}
     } else if (action === "win") {
