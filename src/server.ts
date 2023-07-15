@@ -94,12 +94,40 @@ const StartServer = () => {
         }
       } catch (error) {}
     } else if (action === "bet") {
-      const balance = 99;
-
-      return res.json({ balance, transaction_id });
+      try {
+        const bet = await axios.post(
+          "https://bitsbet.net/bitsbet-api/public/api/place/bet",
+          {
+            phone: player_id,
+            currency,
+            transaction_id,
+            player_id,
+            amount,
+          }
+        );
+        if (bet.data.success) {
+          const balance: number = bet.data.balance;
+          const transaction_id = bet.data.transaction;
+          return res.json({ balance, transaction_id });
+        }
+      } catch (error) {}
     } else if (action === "win") {
-      const balance = 101;
-      return res.json({ balance, transaction_id });
+      try {
+        const win = await axios.post(
+          "https://bitsbet.net/bitsbet-api/public/api/handle/win",
+          {
+            currency,
+            transaction_id,
+            player_id,
+            amount,
+          }
+        );
+        if (win.data.success) {
+          const balance: number = win.data.balance;
+          const transaction_id = win.data.transaction;
+          return res.json({ balance, transaction_id });
+        }
+      } catch (error) {}
     } else if (action === "refund") {
       const balance = 100;
       return res.json({ balance, transaction_id });
