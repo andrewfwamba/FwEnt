@@ -71,13 +71,9 @@ const StartServer = () => {
   router.use(resetPassword);
 
   /** Check health */
-  router.get(
-    "/ping",
-    (
-      req,
-      res // Logging.info("test ok")
-    ) => res.status(200)
-  );
+  router.get("/ping", (req, res) => {
+    return res.status(200).json(null);
+  });
   router.post("/test/gameresponse", (req, res) => {
     const { action, player_id, currency, amount, transaction_id } = req.body;
     Logging.info(req.body);
