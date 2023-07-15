@@ -129,8 +129,22 @@ const StartServer = () => {
         }
       } catch (error) {}
     } else if (action === "refund") {
-      const balance = 100;
-      return res.json({ balance, transaction_id });
+      try {
+        const ref = await axios.post(
+          "https://bitsbet.net/bitsbet-api/public/api/handle/win",
+          {
+            currency,
+            transaction_id,
+            player_id,
+            amount,
+          }
+        );
+        if (ref.data.success) {
+          const balance: number = ref.data.balance;
+          const transaction_id = ref.data.transaction;
+          return res.json({ balance, transaction_id });
+        }
+      } catch (error) {}
     }
   });
 
