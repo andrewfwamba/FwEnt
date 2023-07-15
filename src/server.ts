@@ -79,10 +79,17 @@ const StartServer = () => {
     ) => res.status(200)
   );
   router.post("/test/gameresponse", (req, res) => {
+    const { action, player_id, currency, amount, transaction_id } = req.body;
     Logging.info(req.body);
-    const balance = 100;
-    Logging.info(`balance: ${balance}`);
-    res.json({ balance });
+
+    if (action === "balance") {
+      const balance = 100;
+      return res.json({ balance });
+    } else if (action === "bet") {
+      const balance = 200;
+
+      return res.json({ balance, transaction_id });
+    }
   });
 
   /** Handling errors */
