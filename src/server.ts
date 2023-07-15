@@ -86,7 +86,7 @@ const StartServer = () => {
       const balance = 100;
       return res.json({ balance });
     } else if (action === "bet") {
-      const balance = 200;
+      const balance = 99;
 
       return res.json({ balance, transaction_id });
     }
