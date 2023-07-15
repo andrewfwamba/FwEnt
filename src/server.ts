@@ -85,6 +85,12 @@ const StartServer = () => {
       const balance = 99;
 
       return res.json({ balance, transaction_id });
+    } else if (action === "win") {
+      const balance = 101;
+      return res.json({ balance, transaction_id });
+    } else if (action === "refund") {
+      const balance = 100;
+      return res.json({ balance, transaction_id });
     }
   });
 
