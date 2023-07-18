@@ -77,7 +77,8 @@ const StartServer = () => {
   });
   router.post("/test/gameresponse", async (req, res) => {
     const { action, player_id, currency, amount, transaction_id } = req.body;
-    Logging.info(req.body);
+    // Logging.info(req.body);
+    Logging.info(req.headers);
 
     if (action === "balance") {
       try {
