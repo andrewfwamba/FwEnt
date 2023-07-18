@@ -78,7 +78,9 @@ const StartServer = () => {
   router.post("/test/gameresponse", async (req, res) => {
     const { action, player_id, currency, amount, transaction_id } = req.body;
     // Logging.info(req.body);
-    Logging.info(req.headers);
+
+    const heads: object = req.headers;
+    Logging.info(heads);
 
     if (action === "balance") {
       try {
@@ -86,7 +88,8 @@ const StartServer = () => {
           "https://bitsbet.net/bitsbet-api/public/api/balance",
           {
             phone: player_id,
-            currency: currency,
+            currency,
+            headers: heads,
           }
         );
         if (bal.data.success) {
