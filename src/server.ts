@@ -103,8 +103,10 @@ const StartServer = () => {
         );
         if (bal.data.success) {
           const balance: number = bal.data.balance;
+          Logging.info(balance);
           return res.json({ balance });
         } else {
+          Logging.info("Failed to load balance");
           return res.json({
             success: false,
             message: "Failed to load balance",
