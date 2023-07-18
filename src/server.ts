@@ -79,8 +79,14 @@ const StartServer = () => {
     const { action, player_id, currency, amount, transaction_id } = req.body;
     // Logging.info(req.body);
 
-    const heads: object = req.headers;
-    Logging.info(heads);
+    const merchantid = req.headers["x-merchant-id"];
+    const timestamp = req.headers["x-timestamp"];
+    const nonce = req.headers["x-nonce"];
+    const sign = req.headers["x-sign"];
+
+    Logging.info(timestamp);
+    Logging.info(nonce);
+    Logging.info(sign);
 
     if (action === "balance") {
       try {
@@ -89,12 +95,20 @@ const StartServer = () => {
           {
             phone: player_id,
             currency,
-            headers: heads,
+            merchantid,
+            timestamp,
+            nonce,
+            sign,
           }
         );
         if (bal.data.success) {
           const balance: number = bal.data.balance;
           return res.json({ balance });
+        } else {
+          return res.json({
+            success: false,
+            message: "Failed to load balance",
+          });
         }
       } catch (error) {}
     } else if (action === "bet") {
