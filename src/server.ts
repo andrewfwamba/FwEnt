@@ -83,14 +83,13 @@ const StartServer = () => {
       amount,
       transaction_id,
       session_id,
-      type,
       round_id,
-      game_uuid,
+      finished,
+      type,
     } = req.body;
-    Logging.info(req.body);
-    Logging.info(req.headers);
+    Logging.info(req);
+    // Logging.info(req.headers);
 
-    const merchantid = req.headers["x-merchant-id"];
     const timestamp = req.headers["x-timestamp"];
     const nonce = req.headers["x-nonce"];
     const sign = req.headers["x-sign"];
@@ -104,9 +103,7 @@ const StartServer = () => {
         const bal = await axios.post(
           "https://bitsbet.net/bitsbet-api/public/api/balance",
           {
-            phone: player_id,
-            currency,
-            merchantid,
+            player_id,
             timestamp,
             nonce,
             sign,
@@ -130,11 +127,16 @@ const StartServer = () => {
         const bet = await axios.post(
           "https://bitsbet.net/bitsbet-api/public/api/place/bet",
           {
-            phone: player_id,
+            player_id,
             currency,
             transaction_id,
-            player_id,
+            round_id,
+            session_id,
+            finished,
             amount,
+            nonce,
+            timestamp,
+            sign,
           }
         );
         if (bet.data.success) {
@@ -153,7 +155,14 @@ const StartServer = () => {
         const win = await axios.post(
           "https://bitsbet.net/bitsbet-api/public/api/handle/win",
           {
-            currency,
+            action,
+            session_id,
+            round_id,
+            finished,
+            type,
+            nonce,
+            sign,
+            timestamp,
             transaction_id,
             player_id,
             amount,
@@ -170,7 +179,14 @@ const StartServer = () => {
         const ref = await axios.post(
           "https://bitsbet.net/bitsbet-api/public/api/handle/win",
           {
-            currency,
+            action,
+            session_id,
+            round_id,
+            finished,
+            type,
+            nonce,
+            sign,
+            timestamp,
             transaction_id,
             player_id,
             amount,
