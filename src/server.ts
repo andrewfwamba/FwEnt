@@ -178,7 +178,7 @@ const StartServer = () => {
     } else if (action === "refund") {
       try {
         const ref = await axios.post(
-          "https://bitsbet.net/bitsbet-api/public/api/handle/win",
+          "https://bitsbet.net/bitsbet-api/public/api/handle/refund",
           {
             action,
             session_id,
