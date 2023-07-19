@@ -76,8 +76,18 @@ const StartServer = () => {
     return res.status(200).json(null);
   });
   router.post("/test/gameresponse", async (req, res) => {
-    const { action, player_id, currency, amount, transaction_id } = req.body;
-    // Logging.info(req.body);
+    const {
+      action,
+      player_id,
+      currency,
+      amount,
+      transaction_id,
+      session_id,
+      type,
+      round_id,
+      game_uuid,
+    } = req.body;
+    Logging.info(req.body);
 
     const merchantid = req.headers["x-merchant-id"];
     const timestamp = req.headers["x-timestamp"];
