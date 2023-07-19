@@ -88,15 +88,16 @@ const StartServer = () => {
       game_uuid,
     } = req.body;
     Logging.info(req.body);
+    Logging.info(req.headers);
 
     const merchantid = req.headers["x-merchant-id"];
     const timestamp = req.headers["x-timestamp"];
     const nonce = req.headers["x-nonce"];
     const sign = req.headers["x-sign"];
 
-    Logging.info(timestamp);
-    Logging.info(nonce);
-    Logging.info(sign);
+    // Logging.info(timestamp);
+    // Logging.info(nonce);
+    // Logging.info(sign);
 
     if (action === "balance") {
       try {
