@@ -86,9 +86,10 @@ const StartServer = () => {
       round_id,
       finished,
       type,
+      bet_transaction_id,
     } = req.body;
     Logging.info(req.body);
-    // Logging.info(req.headers);
+    Logging.info(req.headers);
 
     const timestamp = req.headers["x-timestamp"];
     const nonce = req.headers["x-nonce"];
@@ -188,6 +189,7 @@ const StartServer = () => {
             sign,
             timestamp,
             transaction_id,
+            bet_transaction_id,
             player_id,
             amount,
           }
