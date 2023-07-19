@@ -87,7 +87,7 @@ const StartServer = () => {
       finished,
       type,
     } = req.body;
-    Logging.info(req);
+    Logging.info(req.body);
     // Logging.info(req.headers);
 
     const timestamp = req.headers["x-timestamp"];
