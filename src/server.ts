@@ -123,6 +123,7 @@ const StartServer = () => {
           });
         }
       } catch (error) {
+        console.log("INTERNAL_ERROR", "something went wrong");
         res.json({
           error_code: "INTERNAL_ERROR",
           error_description: "something went wrong",
@@ -149,13 +150,15 @@ const StartServer = () => {
           const balance: number = bet.data.balance;
           const transaction_id = bet.data.transaction;
           return res.json({ balance, transaction_id });
-        } else {
+        } else if (bet.data.error.transaction_id[0]) {
+          console.log("INTERNAL_ERROR", "duplicate transaction");
           res.json({
-            error_code: "INSUFFICIENT_FUNDS",
-            error_description: "Not enough money to continue playing",
+            error_code: "INTERNAL_ERROR",
+            error_description: "duplicate transaction",
           });
         }
       } catch (error) {
+        console.log("INTERNAL_ERROR", "something went wrong");
         res.json({
           error_code: "INTERNAL_ERROR",
           error_description: "something went wrong",
@@ -183,8 +186,15 @@ const StartServer = () => {
           const balance: number = win.data.balance;
           const transaction_id = win.data.transaction;
           return res.json({ balance, transaction_id });
+        } else if (win.data.error.transaction_id[0]) {
+          console.log("INTERNAL_ERROR", "duplicate transaction");
+          res.json({
+            error_code: "INTERNAL_ERROR",
+            error_description: "duplicate transaction",
+          });
         }
       } catch (error) {
+        console.log("INTERNAL_ERROR", "something went wrong");
         res.json({
           error_code: "INTERNAL_ERROR",
           error_description: "something went wrong",
@@ -213,13 +223,15 @@ const StartServer = () => {
           const balance: number = ref.data.balance;
           const transaction_id = ref.data.transaction;
           return res.json({ balance, transaction_id });
-        } else {
+        } else if (ref.data.error.transaction_id[0]) {
+          console.log("INTERNAL_ERROR", "duplicate transaction");
           res.json({
             error_code: "INTERNAL_ERROR",
-            error_description: "something went wrong",
+            error_description: "duplicate transaction",
           });
         }
       } catch (error) {
+        console.log("INTERNAL_ERROR", "something went wrong");
         res.json({
           error_code: "INTERNAL_ERROR",
           error_description: "something went wrong",
