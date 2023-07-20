@@ -118,11 +118,16 @@ const StartServer = () => {
           Logging.info("Failed to load balance");
           Logging.info(bal.data.data);
           return res.json({
-            success: false,
-            message: "Failed to load balance",
+            error_code: "INSUFFICIENT_FUNDS",
+            error_description: "Not enough money to continue playing",
           });
         }
-      } catch (error) {}
+      } catch (error) {
+        res.json({
+          error_code: "INTERNAL_ERROR",
+          error_description: "something went wrong",
+        });
+      }
     } else if (action === "bet") {
       try {
         const bet = await axios.post(
@@ -150,7 +155,12 @@ const StartServer = () => {
             error_description: "Not enough money to continue playing",
           });
         }
-      } catch (error) {}
+      } catch (error) {
+        res.json({
+          error_code: "INTERNAL_ERROR",
+          error_description: "something went wrong",
+        });
+      }
     } else if (action === "win") {
       try {
         const win = await axios.post(
@@ -174,7 +184,12 @@ const StartServer = () => {
           const transaction_id = win.data.transaction;
           return res.json({ balance, transaction_id });
         }
-      } catch (error) {}
+      } catch (error) {
+        res.json({
+          error_code: "INTERNAL_ERROR",
+          error_description: "something went wrong",
+        });
+      }
     } else if (action === "refund") {
       try {
         const ref = await axios.post(
@@ -198,8 +213,18 @@ const StartServer = () => {
           const balance: number = ref.data.balance;
           const transaction_id = ref.data.transaction;
           return res.json({ balance, transaction_id });
+        } else {
+          res.json({
+            error_code: "INTERNAL_ERROR",
+            error_description: "something went wrong",
+          });
         }
-      } catch (error) {}
+      } catch (error) {
+        res.json({
+          error_code: "INTERNAL_ERROR",
+          error_description: "something went wrong",
+        });
+      }
     }
   });
 
