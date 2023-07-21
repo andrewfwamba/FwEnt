@@ -201,7 +201,6 @@ const StartServer = () => {
             round_id,
             type,
             session_id,
-            finished,
             amount,
             nonce,
             timestamp,
