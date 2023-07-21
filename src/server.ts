@@ -116,10 +116,10 @@ const StartServer = () => {
           error_description: "User does not exist",
         });
       } else {
-        console.log("INTERNAL_ERROR", "something went wrong");
+        console.log("INTERNAL_ERROR", "invalid signature");
         return res.json({
           error_code: "INTERNAL_ERROR",
-          error_description: "something went wrong",
+          error_description: "invalid signature",
         });
       }
     } else if (action === "bet") {
@@ -158,10 +158,10 @@ const StartServer = () => {
           error_description: "duplicate transaction",
         });
       } else {
-        console.log("INTERNAL_ERROR", "something went wrong");
+        console.log("INTERNAL_ERROR", "invalid signature");
         return res.json({
           error_code: "INTERNAL_ERROR",
-          error_description: "something went wrong",
+          error_description: "invalid signature",
         });
       }
     } else if (action === "win") {
@@ -200,10 +200,10 @@ const StartServer = () => {
           error_description: "duplicate transaction",
         });
       } else {
-        console.log("INTERNAL_ERROR", "something went wrong");
+        console.log("INTERNAL_ERROR", "invalid signature");
         return res.json({
           error_code: "INTERNAL_ERROR",
-          error_description: "something went wrong",
+          error_description: "invalid signature",
         });
       }
     } else if (action === "refund") {
@@ -238,10 +238,10 @@ const StartServer = () => {
           error_description: "duplicate transaction",
         });
       } else {
-        console.log("INTERNAL_ERROR", "something went wrong");
+        console.log("INTERNAL_ERROR", "invalid signature");
         return res.json({
           error_code: "INTERNAL_ERROR",
-          error_description: "something went wrong",
+          error_description: "invalid signature",
         });
       }
     }
