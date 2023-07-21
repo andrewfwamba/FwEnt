@@ -131,16 +131,20 @@ const StartServer = () => {
             currency,
             transaction_id,
             round_id,
+            type,
+            action,
             session_id,
-            finished,
             amount,
             nonce,
             timestamp,
             sign,
           }
         );
-        const balance = req.data.balance;
-        return res.json({ balance, transaction_id });
+        if (req.data.success) {
+          const balance: number = req.data.balance;
+          const transaction_id = req.data.transaction;
+          return res.json({ balance, transaction_id });
+        }
       }
 
       //
@@ -191,9 +195,11 @@ const StartServer = () => {
           "https://bitsbet.net/bitsbet-api/public/api/zero/bet",
           {
             player_id,
+            action,
             currency,
             transaction_id,
             round_id,
+            type,
             session_id,
             finished,
             amount,
