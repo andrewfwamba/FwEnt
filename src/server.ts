@@ -123,6 +123,27 @@ const StartServer = () => {
         });
       }
     } else if (action === "bet") {
+      if (amount == 0) {
+        const req = await axios.post(
+          "https://bitsbet.net/bitsbet-api/public/api/zero/bet",
+          {
+            player_id,
+            currency,
+            transaction_id,
+            round_id,
+            session_id,
+            finished,
+            amount,
+            nonce,
+            timestamp,
+            sign,
+          }
+        );
+        const balance = req.data.balance;
+        return res.json({ balance, transaction_id });
+      }
+
+      //
       const bet = await axios.post(
         "https://bitsbet.net/bitsbet-api/public/api/place/bet",
         {
@@ -165,6 +186,26 @@ const StartServer = () => {
         });
       }
     } else if (action === "win") {
+      if (amount == 0) {
+        const req = await axios.post(
+          "https://bitsbet.net/bitsbet-api/public/api/zero/bet",
+          {
+            player_id,
+            currency,
+            transaction_id,
+            round_id,
+            session_id,
+            finished,
+            amount,
+            nonce,
+            timestamp,
+            sign,
+          }
+        );
+        const balance = req.data.balance;
+        return res.json({ balance, transaction_id });
+      }
+
       const win = await axios.post(
         "https://bitsbet.net/bitsbet-api/public/api/handle/win",
         {
