@@ -96,28 +96,26 @@ const StartServer = () => {
     const sign = req.headers["x-sign"];
 
     if (action === "balance") {
-      try {
-        const bal = await axios.post(
-          "https://bitsbet.net/bitsbet-api/public/api/balance",
-          {
-            player_id,
-            timestamp,
-            nonce,
-            sign,
-          }
-        );
-        if (bal.data.success) {
-          const balance: number = bal.data.balance;
-          Logging.info(balance);
-          return res.json({ balance });
-        } else if (bal.data.data === "user not valid") {
-          console.log("User does not exist");
-          return res.json({
-            error_code: "INTERNAL_ERROR",
-            error_description: "User does not exist",
-          });
+      const bal = await axios.post(
+        "https://bitsbet.net/bitsbet-api/public/api/balance",
+        {
+          player_id,
+          timestamp,
+          nonce,
+          sign,
         }
-      } catch (error) {
+      );
+      if (bal.data.success) {
+        const balance: number = bal.data.balance;
+        Logging.info(balance);
+        return res.json({ balance });
+      } else if (bal.data.data === "user not valid") {
+        console.log("User does not exist");
+        return res.json({
+          error_code: "INTERNAL_ERROR",
+          error_description: "User does not exist",
+        });
+      } else {
         console.log("INTERNAL_ERROR", "something went wrong");
         return res.json({
           error_code: "INTERNAL_ERROR",
@@ -125,43 +123,41 @@ const StartServer = () => {
         });
       }
     } else if (action === "bet") {
-      try {
-        const bet = await axios.post(
-          "https://bitsbet.net/bitsbet-api/public/api/place/bet",
-          {
-            player_id,
-            currency,
-            transaction_id,
-            round_id,
-            session_id,
-            finished,
-            amount,
-            nonce,
-            timestamp,
-            sign,
-          }
-        );
-        if (bet.data.success) {
-          const balance: number = bet.data.balance;
-          const transaction_id = bet.data.transaction;
-          return res.json({ balance, transaction_id });
-        } else if (bet.data.data === "invalid signature from proxy") {
-          console.log("invalid signature");
-          return res.json({
-            error_code: "INTERNAL_ERROR",
-            error_description: "invalid signature",
-          });
-        } else if (
-          bet.data.error.transaction_id ===
-          "The transaction id has already been taken."
-        ) {
-          console.log("INTERNAL_ERROR", "duplicate transaction");
-          return res.json({
-            error_code: "INTERNAL_ERROR",
-            error_description: "duplicate transaction",
-          });
+      const bet = await axios.post(
+        "https://bitsbet.net/bitsbet-api/public/api/place/bet",
+        {
+          player_id,
+          currency,
+          transaction_id,
+          round_id,
+          session_id,
+          finished,
+          amount,
+          nonce,
+          timestamp,
+          sign,
         }
-      } catch (error) {
+      );
+      if (bet.data.success) {
+        const balance: number = bet.data.balance;
+        const transaction_id = bet.data.transaction;
+        return res.json({ balance, transaction_id });
+      } else if (bet.data.data === "invalid signature from proxy") {
+        console.log("invalid signature");
+        return res.json({
+          error_code: "INTERNAL_ERROR",
+          error_description: "invalid signature",
+        });
+      } else if (
+        bet.data.error.transaction_id ===
+        "The transaction id has already been taken."
+      ) {
+        console.log("INTERNAL_ERROR", "duplicate transaction");
+        return res.json({
+          error_code: "INTERNAL_ERROR",
+          error_description: "duplicate transaction",
+        });
+      } else {
         console.log("INTERNAL_ERROR", "something went wrong");
         return res.json({
           error_code: "INTERNAL_ERROR",
@@ -169,43 +165,41 @@ const StartServer = () => {
         });
       }
     } else if (action === "win") {
-      try {
-        const win = await axios.post(
-          "https://bitsbet.net/bitsbet-api/public/api/handle/win",
-          {
-            action,
-            session_id,
-            round_id,
-            finished,
-            type,
-            nonce,
-            sign,
-            timestamp,
-            transaction_id,
-            player_id,
-            amount,
-          }
-        );
-        if (win.data.success) {
-          const balance: number = win.data.balance;
-          const transaction_id = win.data.transaction;
-          return res.json({ balance, transaction_id });
-        } else if (win.data.data === "invalid signature from proxy") {
-          return res.json({
-            error_code: "INTERNAL_ERROR",
-            error_description: "invalid signature",
-          });
-        } else if (
-          win.data.error.transaction_id ===
-          "The transaction id has already been taken."
-        ) {
-          console.log("INTERNAL_ERROR", "duplicate transaction");
-          return res.json({
-            error_code: "INTERNAL_ERROR",
-            error_description: "duplicate transaction",
-          });
+      const win = await axios.post(
+        "https://bitsbet.net/bitsbet-api/public/api/handle/win",
+        {
+          action,
+          session_id,
+          round_id,
+          finished,
+          type,
+          nonce,
+          sign,
+          timestamp,
+          transaction_id,
+          player_id,
+          amount,
         }
-      } catch (error) {
+      );
+      if (win.data.success) {
+        const balance: number = win.data.balance;
+        const transaction_id = win.data.transaction;
+        return res.json({ balance, transaction_id });
+      } else if (win.data.data === "invalid signature from proxy") {
+        return res.json({
+          error_code: "INTERNAL_ERROR",
+          error_description: "invalid signature",
+        });
+      } else if (
+        win.data.error.transaction_id ===
+        "The transaction id has already been taken."
+      ) {
+        console.log("INTERNAL_ERROR", "duplicate transaction");
+        return res.json({
+          error_code: "INTERNAL_ERROR",
+          error_description: "duplicate transaction",
+        });
+      } else {
         console.log("INTERNAL_ERROR", "something went wrong");
         return res.json({
           error_code: "INTERNAL_ERROR",
@@ -213,39 +207,37 @@ const StartServer = () => {
         });
       }
     } else if (action === "refund") {
-      try {
-        const ref = await axios.post(
-          "https://bitsbet.net/bitsbet-api/public/api/handle/refund",
-          {
-            action,
-            session_id,
-            round_id,
-            finished,
-            type,
-            nonce,
-            sign,
-            timestamp,
-            transaction_id,
-            bet_transaction_id,
-            player_id,
-            amount,
-          }
-        );
-        if (ref.data.success) {
-          const balance: number = ref.data.balance;
-          const transaction_id = ref.data.transaction;
-          return res.json({ balance, transaction_id });
-        } else if (
-          ref.data.error.transaction_id ===
-          "The transaction id has already been taken."
-        ) {
-          console.log("INTERNAL_ERROR", "duplicate transaction");
-          return res.json({
-            error_code: "INTERNAL_ERROR",
-            error_description: "duplicate transaction",
-          });
+      const ref = await axios.post(
+        "https://bitsbet.net/bitsbet-api/public/api/handle/refund",
+        {
+          action,
+          session_id,
+          round_id,
+          finished,
+          type,
+          nonce,
+          sign,
+          timestamp,
+          transaction_id,
+          bet_transaction_id,
+          player_id,
+          amount,
         }
-      } catch (error) {
+      );
+      if (ref.data.success) {
+        const balance: number = ref.data.balance;
+        const transaction_id = ref.data.transaction;
+        return res.json({ balance, transaction_id });
+      } else if (
+        ref.data.error.transaction_id ===
+        "The transaction id has already been taken."
+      ) {
+        console.log("INTERNAL_ERROR", "duplicate transaction");
+        return res.json({
+          error_code: "INTERNAL_ERROR",
+          error_description: "duplicate transaction",
+        });
+      } else {
         console.log("INTERNAL_ERROR", "something went wrong");
         return res.json({
           error_code: "INTERNAL_ERROR",
