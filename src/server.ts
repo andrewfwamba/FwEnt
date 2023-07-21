@@ -254,6 +254,27 @@ const StartServer = () => {
         });
       }
     } else if (action === "refund") {
+      if (amount == 0) {
+        const req = await axios.post(
+          "https://bitsbet.net/bitsbet-api/public/api/zero/refund",
+          {
+            player_id,
+            action,
+            currency,
+            transaction_id,
+            round_id,
+            type,
+            session_id,
+            amount,
+            nonce,
+            timestamp,
+            bet_transaction_id,
+            sign,
+          }
+        );
+        const balance = req.data.balance;
+        return res.json({ balance, transaction_id });
+      }
       const ref = await axios.post(
         "https://bitsbet.net/bitsbet-api/public/api/handle/refund",
         {
