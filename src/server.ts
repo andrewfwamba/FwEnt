@@ -95,10 +95,6 @@ const StartServer = () => {
     const nonce = req.headers["x-nonce"];
     const sign = req.headers["x-sign"];
 
-    // Logging.info(timestamp);
-    // Logging.info(nonce);
-    // Logging.info(sign);
-
     if (action === "balance") {
       try {
         const bal = await axios.post(
@@ -114,17 +110,16 @@ const StartServer = () => {
           const balance: number = bal.data.balance;
           Logging.info(balance);
           return res.json({ balance });
-        } else {
-          Logging.info("Failed to load balance");
-          Logging.info(bal.data.data);
+        } else if (bal.data.data === "user not valid") {
+          console.log("User does not exist");
           return res.json({
-            error_code: "INSUFFICIENT_FUNDS",
-            error_description: "Not enough money to continue playing",
+            error_code: "INTERNAL_ERROR",
+            error_description: "User does not exist",
           });
         }
       } catch (error) {
         console.log("INTERNAL_ERROR", "something went wrong");
-        res.json({
+        return res.json({
           error_code: "INTERNAL_ERROR",
           error_description: "something went wrong",
         });
@@ -150,16 +145,25 @@ const StartServer = () => {
           const balance: number = bet.data.balance;
           const transaction_id = bet.data.transaction;
           return res.json({ balance, transaction_id });
-        } else if (bet.data.error.transaction_id[0]) {
+        } else if (bet.data.data === "invalid signature from proxy") {
+          console.log("invalid signature");
+          return res.json({
+            error_code: "INTERNAL_ERROR",
+            error_description: "invalid signature",
+          });
+        } else if (
+          bet.data.error.transaction_id ===
+          "The transaction id has already been taken."
+        ) {
           console.log("INTERNAL_ERROR", "duplicate transaction");
-          res.json({
+          return res.json({
             error_code: "INTERNAL_ERROR",
             error_description: "duplicate transaction",
           });
         }
       } catch (error) {
         console.log("INTERNAL_ERROR", "something went wrong");
-        res.json({
+        return res.json({
           error_code: "INTERNAL_ERROR",
           error_description: "something went wrong",
         });
@@ -186,16 +190,24 @@ const StartServer = () => {
           const balance: number = win.data.balance;
           const transaction_id = win.data.transaction;
           return res.json({ balance, transaction_id });
-        } else if (win.data.error.transaction_id[0]) {
+        } else if (win.data.data === "invalid signature from proxy") {
+          return res.json({
+            error_code: "INTERNAL_ERROR",
+            error_description: "invalid signature",
+          });
+        } else if (
+          win.data.error.transaction_id ===
+          "The transaction id has already been taken."
+        ) {
           console.log("INTERNAL_ERROR", "duplicate transaction");
-          res.json({
+          return res.json({
             error_code: "INTERNAL_ERROR",
             error_description: "duplicate transaction",
           });
         }
       } catch (error) {
         console.log("INTERNAL_ERROR", "something went wrong");
-        res.json({
+        return res.json({
           error_code: "INTERNAL_ERROR",
           error_description: "something went wrong",
         });
@@ -223,16 +235,19 @@ const StartServer = () => {
           const balance: number = ref.data.balance;
           const transaction_id = ref.data.transaction;
           return res.json({ balance, transaction_id });
-        } else if (ref.data.error.transaction_id[0]) {
+        } else if (
+          ref.data.error.transaction_id ===
+          "The transaction id has already been taken."
+        ) {
           console.log("INTERNAL_ERROR", "duplicate transaction");
-          res.json({
+          return res.json({
             error_code: "INTERNAL_ERROR",
             error_description: "duplicate transaction",
           });
         }
       } catch (error) {
         console.log("INTERNAL_ERROR", "something went wrong");
-        res.json({
+        return res.json({
           error_code: "INTERNAL_ERROR",
           error_description: "something went wrong",
         });
