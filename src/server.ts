@@ -199,6 +199,7 @@ const StartServer = () => {
             player_id,
             action,
             currency,
+            game_uuid,
             transaction_id,
             round_id,
             type,
