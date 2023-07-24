@@ -169,26 +169,17 @@ const StartServer = () => {
         const balance: number = bet.data.balance;
         const transaction_id = bet.data.transaction;
         return res.json({ balance, transaction_id });
-      } else if (bet.data.data === "invalid signature from proxy") {
-        console.log("invalid signature");
+      } else if (bet.data.balance === "balance below bet amount") {
+        console.log("insufficiet funds");
         return res.json({
-          error_code: "INTERNAL_ERROR",
-          error_description: "invalid signature",
-        });
-      } else if (
-        bet.data.error.transaction_id ===
-        "The transaction id has already been taken."
-      ) {
-        console.log("INTERNAL_ERROR", "duplicate transaction");
-        return res.json({
-          error_code: "INTERNAL_ERROR",
-          error_description: "duplicate transaction",
+          error_code: "INSUFFICIENT_FUNDS",
+          error_description: "Not enough money to continue playing",
         });
       } else {
-        console.log("INTERNAL_ERROR", "invalid signature");
+        console.log("INSUFFICIENT_FUNDS");
         return res.json({
-          error_code: "INTERNAL_ERROR",
-          error_description: "invalid signature",
+          error_code: "INSUFFICIENT_FUNDS",
+          error_description: "Not enough money to continue playing",
         });
       }
     } else if (action === "win") {
