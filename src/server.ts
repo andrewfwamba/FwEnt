@@ -107,7 +107,7 @@ const StartServer = () => {
         }
       );
       if (bal.data.success) {
-        const balance = parseFloat(bal.data.balance).toFixed(4);
+        const balance = bal.data.balance;
         Logging.info(balance);
         return res.json({ balance });
       } else if (bal.data.data === "user not valid") {
@@ -142,7 +142,7 @@ const StartServer = () => {
           }
         );
         if (req.data.success) {
-          const balance = parseFloat(req.data.balance).toFixed(4);
+          const balance = req.data.balance;
           const transaction_id = req.data.transaction;
           return res.json({ balance, transaction_id });
         }
@@ -166,7 +166,7 @@ const StartServer = () => {
         }
       );
       if (bet.data.success) {
-        const balance = parseFloat(bet.data.balance).toFixed(4);
+        const balance = bet.data.balance;
         const transaction_id = bet.data.transaction;
         return res.json({ balance, transaction_id });
       } else if (bet.data.balance === "balance below bet amount") {
@@ -266,7 +266,7 @@ const StartServer = () => {
             sign,
           }
         );
-        const balance = parseFloat(req.data.balance).toFixed(4);
+        const balance = req.data.balance;
         return res.json({ balance, transaction_id });
       }
       const ref = await axios.post(
@@ -287,7 +287,7 @@ const StartServer = () => {
         }
       );
       if (ref.data.success) {
-        const balance = parseFloat(ref.data.balance).toFixed(4);
+        const balance = ref.data.balance;
         const transaction_id = ref.data.transaction;
         return res.json({ balance, transaction_id });
       } else if (
