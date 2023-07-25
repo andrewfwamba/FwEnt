@@ -142,7 +142,7 @@ const StartServer = () => {
           }
         );
         if (req.data.success) {
-          const balance = req.data.balance;
+          const balance = parseFloat(req.data.balance).toFixed(4);
           const transaction_id = req.data.transaction;
           return res.json({ balance, transaction_id });
         }
@@ -166,7 +166,7 @@ const StartServer = () => {
         }
       );
       if (bet.data.success) {
-        const balance = bet.data.balance;
+        const balance = parseFloat(bet.data.balance).toFixed(4);
         const transaction_id = bet.data.transaction;
         return res.json({ balance, transaction_id });
       } else if (bet.data.balance === "balance below bet amount") {
