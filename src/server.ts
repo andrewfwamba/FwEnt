@@ -107,7 +107,8 @@ const StartServer = () => {
         }
       );
       if (bal.data.success) {
-        const balance: number = bal.data.balance;
+        const rawbal = bal.data.balance;
+        const balance: number = rawbal.toFixed(4);
         Logging.info(balance);
         return res.json({ balance });
       } else if (bal.data.data === "user not valid") {
@@ -142,7 +143,9 @@ const StartServer = () => {
           }
         );
         if (req.data.success) {
-          const balance: number = req.data.balance;
+          const rawbal = req.data.balance;
+          const balance: number = rawbal.toFixed(4);
+          // const balance: number = req.data.balance;
           const transaction_id = req.data.transaction;
           return res.json({ balance, transaction_id });
         }
@@ -166,11 +169,13 @@ const StartServer = () => {
         }
       );
       if (bet.data.success) {
-        const balance: number = bet.data.balance;
+        const rawbal = bet.data.balance;
+        const balance: number = rawbal.toFixed(4);
+
         const transaction_id = bet.data.transaction;
         return res.json({ balance, transaction_id });
       } else if (bet.data.balance === "balance below bet amount") {
-        console.log("insufficiet funds");
+        console.log("insufficient funds");
         return res.json({
           error_code: "INSUFFICIENT_FUNDS",
           error_description: "Not enough money to continue playing",
@@ -201,7 +206,8 @@ const StartServer = () => {
             sign,
           }
         );
-        const balance = req.data.balance;
+        const rawbal = req.data.balance;
+        const balance: number = rawbal.toFixed(4);
         return res.json({ balance, transaction_id });
       }
 
@@ -223,7 +229,9 @@ const StartServer = () => {
         }
       );
       if (win.data.success) {
-        const balance: number = win.data.balance;
+        const rawbal = win.data.balance;
+        const balance: number = rawbal.toFixed(4);
+        // const balance: number = win.data.balance;
         const transaction_id = win.data.transaction;
         return res.json({ balance, transaction_id });
       } else if (win.data.data === "invalid signature from proxy") {
@@ -266,7 +274,9 @@ const StartServer = () => {
             sign,
           }
         );
-        const balance = req.data.balance;
+        const rawbal = req.data.balance;
+        const balance: number = rawbal.toFixed(4);
+        // const balance = req.data.balance;
         return res.json({ balance, transaction_id });
       }
       const ref = await axios.post(
@@ -287,7 +297,9 @@ const StartServer = () => {
         }
       );
       if (ref.data.success) {
-        const balance: number = ref.data.balance;
+        const rawbal = ref.data.balance;
+        const balance: number = rawbal.toFixed(4);
+        // const balance: number = ref.data.balance;
         const transaction_id = ref.data.transaction;
         return res.json({ balance, transaction_id });
       } else if (
